@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using VehicleCms.Common.Models.Requests.Bases;
 
 namespace VehicleCms.Common.Models.Requests
 {
-    public class UpsertUserRequest
+    public class UpsertUserRequest : IdentifiableRequest
     {
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }

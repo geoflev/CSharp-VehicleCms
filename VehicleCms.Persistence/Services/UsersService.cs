@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using VehicleCms.Common.Models.Dtos;
 using VehicleCms.Common.Models.Requests;
 using VehicleCms.Common.Services.Interfaces;
+using VehicleCms.Persistence.Entities;
 
 namespace VehicleCms.Persistence.Services
 {
@@ -18,35 +19,45 @@ namespace VehicleCms.Persistence.Services
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public Task<UserDto> CreateUser(string providerId, UpsertUserRequest upsertUserRequest)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteUser(string providerId, string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserDto> GetUser(string providerid, string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<UserDto>> GetUsers(string providerId)
+        public async Task<IEnumerable<UserDto>> GetUsers()
         {
             var users = await Context
                 .Users
                 .AsNoTracking()
-                .Where(x => x.ProviderId == providerId)
-              .OrderBy(x => x.Name)
+              .OrderBy(x => x.LastName)
               .ToListAsync();
+
+            return users.Select(user => MapEntityToDto(user));
         }
 
-
-        public Task<UserDto> UpdateUser(string providerId, string userId, UpsertUserRequest upsertUserRequest)
+        public Task<UserDto> GetUser(string userId)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<UserDto> CreateUser(UpsertUserRequest upsertUserRequest)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<UserDto> UpdateUser(string userId, UpsertUserRequest upsertUserRequest)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUser(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        private UserDto MapEntityToDto(UserEntity user)
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+            };
         }
     }
 }

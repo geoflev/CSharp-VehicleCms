@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using VehicleCms.Common.Models.Dtos.Bases;
+﻿using VehicleCms.Common.Models.Dtos.Bases;
 using VehicleCms.Common.Models.Enums;
 
 namespace VehicleCms.Common.Models.Dtos
 {
-    class VehicleDto : TrackableDto
+    public class VehicleDto : TrackableDto
     {
         public string Id { get; set; }
         public string Vin { get; set; }
