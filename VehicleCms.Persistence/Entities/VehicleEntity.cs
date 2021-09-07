@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using VehicleCms.Common.Models.Enums;
+﻿using VehicleCms.Common.Models.Enums;
 
 namespace VehicleCms.Persistence.Entities
 {
