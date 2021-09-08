@@ -1,4 +1,5 @@
-﻿using VehicleCms.Common.Models.Requests.Bases;
+﻿using FluentValidation;
+using VehicleCms.Common.Models.Requests.Bases;
 
 namespace VehicleCms.Common.Models.Requests
 {
@@ -7,5 +8,16 @@ namespace VehicleCms.Common.Models.Requests
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+    }
+
+    public class UpsertUserRequestValidator : AbstractValidator<UpsertUserRequest>
+    {
+        public UpsertUserRequestValidator()
+        {
+            RuleFor(x => x.FirstName).NotEmpty();
+            RuleFor(x => x.LastName).NotEmpty();
+            RuleFor(x => x.Email).EmailAddress();
+            
+        }
     }
 }

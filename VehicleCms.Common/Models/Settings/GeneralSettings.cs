@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace VehicleCms.Common.Models.Settings
+﻿namespace VehicleCms.Common.Models.Settings
 {
     public class GeneralSettings
     {

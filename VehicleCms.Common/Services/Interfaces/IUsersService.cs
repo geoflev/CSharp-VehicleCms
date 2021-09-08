@@ -10,9 +10,9 @@ namespace VehicleCms.Common.Services.Interfaces
     public interface IUsersService
     {
         Task<IEnumerable<UserDto>> GetUsers();
-        Task<UserDto> GetUser(string userId);
-        Task<UserDto> CreateUser(UpsertUserRequest upsertUserRequest);
-        Task<UserDto> UpdateUser(string userId, UpsertUserRequest upsertUserRequest);
+        Task<UserDto> GetUserById(string userId);
+        Task<UserDto> PostUser(UpsertUserRequest upsertUserRequest);
+        Task<UserDto> PutUser(string userId, UpsertUserRequest upsertUserRequest);
         Task DeleteUser(string userId);
     }
 }

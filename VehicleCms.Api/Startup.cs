@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 using VehicleCms.Api.Configurations;
 using VehicleCms.Common.Models.Settings;
 
@@ -11,25 +12,22 @@ namespace VehicleCms.Api
 {
     public class Startup
     {
-
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment HostingEnvironment { get; }
-        public GeneralSettings Settings { get; }
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
-            Configuration = configuration;
+            Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            HostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCustomServices(Configuration);
             services.AddHttpContextAccessor();
             services.AddDatabaseConfig(Configuration, HostingEnvironment);
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VehicleCms.Api", Version = "v1" });
-            });
+            services.AddSwaggerConfig();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,15 +37,12 @@ namespace VehicleCms.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VehicleCms.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/vehicle-console/swagger.json", "VehicleCms.Api v1"));
             }
-
+            
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

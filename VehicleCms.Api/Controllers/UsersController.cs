@@ -22,7 +22,7 @@ namespace VehicleCms.Api.Controllers
         }
 
         [HttpGet()]
-        [SwaggerOperation(Tags = new[] { "Provider - Users" }, Summary = "Get users")]
+        [SwaggerOperation(Tags = new[] { "Users" }, Summary = "Get all users")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<UserDto>))]
         public async Task<IActionResult> GetUsers()
         {
@@ -31,34 +31,34 @@ namespace VehicleCms.Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        [SwaggerOperation(Tags = new[] { "Provider - Users" }, Summary = "Get user")]
+        [SwaggerOperation(Tags = new[] { "Users" }, Summary = "Get user")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserDto))]
         public async Task<IActionResult> GetUserById([FromRoute] string userId)
         {
-            var service = await UsersService.GetUser(userId);
+            var service = await UsersService.GetUserById(userId);
             return Ok(service);
         }
 
         [HttpPost()]
-        [SwaggerOperation(Tags = new[] { "Provider - Users" }, Summary = "Save User")]
+        [SwaggerOperation(Tags = new[] { "Users" }, Summary = "Save User")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserDto))]
         public async Task<IActionResult> PostUser([FromBody] UpsertUserRequest request)
         {
-            var service = await UsersService.CreateUser(request);
+            var service = await UsersService.PostUser(request);
             return Ok(service);
         }
 
         [HttpPut("{userId}")]
-        [SwaggerOperation(Tags = new[] { "Provider - Users" }, Summary = "Update User")]
+        [SwaggerOperation(Tags = new[] { "Users" }, Summary = "Update User")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserDto))]
         public async Task<IActionResult> PutUser([FromRoute] string userId, [FromBody] UpsertUserRequest request)
         {
-            var service = await UsersService.UpdateUser(userId, request);
+            var service = await UsersService.PutUser(userId, request);
             return Ok(service);
         }
 
         [HttpDelete("{userId}")]
-        [SwaggerOperation(Tags = new[] { "Provider - Users" }, Summary = "Delete User")]
+        [SwaggerOperation(Tags = new[] { "Users" }, Summary = "Delete User")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> DeleteUser([FromRoute] string userId)
         {

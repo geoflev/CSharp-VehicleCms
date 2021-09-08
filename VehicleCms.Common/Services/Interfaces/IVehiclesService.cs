@@ -11,6 +11,6 @@ namespace VehicleCms.Common.Services.Interfaces
         Task<IEnumerable<VehicleDto>> GetUserVehicles(string userId);
         Task<VehicleDto> PostUserVehicle(string userId, UpsertVehicleRequest request);
         Task<VehicleDto> PutUserVehicle(string userId, string vehicleId, UpsertVehicleRequest request);
-        Task DeleteUserVehicle(string vehicleId, string userId);
+        Task DeleteUserVehicle(string userId, string vehicleId);
     }
 }

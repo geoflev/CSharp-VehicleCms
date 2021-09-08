@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace VehicleCms.Persistence.Entities.Bases
 {
-    class TrackableEntity
+    public class TrackableEntity
     {
+        public string Id { get; set; }
         public string CreatedBy { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public string ModifiedBy { get; set; }

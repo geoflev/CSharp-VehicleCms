@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleCms.Common.Exceptions;
 using VehicleCms.Common.Models.Dtos;
 using VehicleCms.Common.Models.Requests;
 using VehicleCms.Common.Services.Interfaces;
@@ -30,23 +31,54 @@ namespace VehicleCms.Persistence.Services
             return users.Select(user => MapEntityToDto(user));
         }
 
-        public Task<UserDto> GetUser(string userId)
+        public async Task<UserDto> GetUserById(string userId)
         {
-            throw new NotImplementedException();
+            var user = await Context
+                .Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == userId)
+                ?? throw new NotFoundException($"The user with id {userId} not found.");
+
+            return MapEntityToDto(user);
         }
 
-        public Task<UserDto> CreateUser(UpsertUserRequest upsertUserRequest)
+        public async Task<UserDto> PostUser(UpsertUserRequest request)
         {
-            throw new NotImplementedException();
+            var user = new UserEntity
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+            };
+            await Context.Users.AddAsync(user);
+            await Context.SaveChangesAsync();
+            return MapEntityToDto(user);
         }
-        public Task<UserDto> UpdateUser(string userId, UpsertUserRequest upsertUserRequest)
+        public async Task<UserDto> PutUser(string userId, UpsertUserRequest upsertUserRequest)
         {
-            throw new NotImplementedException();
+            var user = await Context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == userId)
+                ?? throw new NotFoundException($"The user with id {userId} not found.");
+
+            user.FirstName = upsertUserRequest.FirstName;
+            user.LastName = upsertUserRequest.LastName;
+            user.Email = upsertUserRequest.Email;
+
+            Context.Users.Update(user);
+            await Context.SaveChangesAsync();
+            return MapEntityToDto(user);
         }
 
-        public Task DeleteUser(string userId)
+        public async Task DeleteUser(string userId)
         {
-            throw new NotImplementedException();
+            var user = await Context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == userId)
+                ?? throw new NotFoundException($"The user with kid {userId} was not found!");
+
+            Context.Users.Remove(user);
+            await Context.SaveChangesAsync();
         }
 
         private UserDto MapEntityToDto(UserEntity user)

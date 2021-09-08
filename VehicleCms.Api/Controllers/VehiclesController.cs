@@ -7,6 +7,7 @@ using VehicleCms.Api.Controllers.Bases;
 using VehicleCms.Common.Services.Interfaces;
 using VehicleCms.Common.Models.Dtos;
 using System.Threading.Tasks;
+using VehicleCms.Common.Models.Requests;
 
 namespace VehicleCms.Api.Controllers
 {
@@ -25,7 +26,35 @@ namespace VehicleCms.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<VehicleDto>))]
         public async Task<IActionResult> GetUserVehicles([FromRoute] string userId)
         {
-            var services = await VehiclesService.
+            var vehicles = await VehiclesService.GetUserVehicles(userId);
+            return Ok(vehicles);
+        }
+
+        [HttpPost()]
+        [SwaggerOperation(Tags = new[] { "User  -  Vehicles" }, Summary = "Post vehicle")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<VehicleDto>))]
+        public async Task<IActionResult> GetVehicle([FromRoute] string userId, [FromBody] UpsertVehicleRequest request)
+        {
+            var vehicle = await VehiclesService.PostUserVehicle(userId, request);
+            return Ok(vehicle);
+        }
+
+        [HttpPut("{vehicleId}")]
+        [SwaggerOperation(Tags = new[] { "User  -  Vehicles" }, Summary = "Put vehicle")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<VehicleDto>))]
+        public async Task<IActionResult> PutVehicle([FromRoute] string userId, [FromRoute] string vehicleId, UpsertVehicleRequest request)
+        {
+            var vehicle = await VehiclesService.PutUserVehicle(userId, vehicleId, request);
+            return Ok(vehicle);
+        }
+
+        [HttpDelete()]
+        [SwaggerOperation(Tags = new[] { "User  -  Vehicles" }, Summary = "Put vehicle")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> DeleteVehicle([FromRoute] string userId, [FromRoute] string vehicleId)
+        {
+            await VehiclesService.DeleteUserVehicle(userId, vehicleId);
+            return NoContent();
         }
     }
 }

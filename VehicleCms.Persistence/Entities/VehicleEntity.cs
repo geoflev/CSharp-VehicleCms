@@ -1,10 +1,10 @@
 ﻿using VehicleCms.Common.Models.Enums;
+using VehicleCms.Persistence.Entities.Bases;
 
 namespace VehicleCms.Persistence.Entities
 {
-    public class VehicleEntity
+    public class VehicleEntity : TrackableEntity
     {
-        public string Id { get; set; }
         public string Vin { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
