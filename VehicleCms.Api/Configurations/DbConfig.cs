@@ -21,7 +21,7 @@ namespace VehicleCms.Api.Configurations
                     builder.EnableSensitiveDataLogging();
                 }
                 var migrationsAssembly = typeof(VehicleCmsContext).GetTypeInfo().Assembly.GetName().Name;
-                builder.UseSqlServer(configuration.GetConnectionString("NeuroDb"), options => options.MigrationsAssembly(migrationsAssembly));
+                builder.UseSqlServer(configuration.GetConnectionString("VehicleCms"), options => options.MigrationsAssembly(migrationsAssembly));
             });
             return services;
         }

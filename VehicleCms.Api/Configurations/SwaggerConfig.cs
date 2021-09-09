@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using VehicleCms.Common.Models.Settings;
 
 namespace VehicleCms.Api.Configurations
 {

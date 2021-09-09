@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using VehicleCms.Persistence.Entities;
 using VehicleCms.Persistence.Entities.Bases;
-using VehicleCms.Persistence.Entities.Connectors;
 
 namespace VehicleCms.Persistence
 {
@@ -24,7 +23,6 @@ namespace VehicleCms.Persistence
         }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<VehicleEntity> Vehicles { get; set; }
-        public DbSet<UserVehicleConnectorEntity> VehicleConnectors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

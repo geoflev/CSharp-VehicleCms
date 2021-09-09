@@ -33,14 +33,13 @@ namespace VehicleCms.Persistence.Services
 
         public async Task<VehicleDto> PostUserVehicle(string userId, UpsertVehicleRequest request)
         {
-            if (!await Context.VehicleConnectors.AsNoTracking().AnyAsync(x => x.UserId == userId && x.VehicleId == request.Id))
+            if (await Context.Vehicles.AsNoTracking().AnyAsync(x => x.UserId == userId && x.Vin == request.Vin))
             {
-                throw new BadRequestException($"The selected connector is not assigned to the provider.");
+                throw new BadRequestException($"The selected vehicle is already assigned to the user.");
             }
 
             var vehicle = new VehicleEntity
             {
-                Id = request.Id,
                 Vin = request.Vin,
                 Make = request.Make,
                 Model = request.Model,
@@ -60,7 +59,7 @@ namespace VehicleCms.Persistence.Services
                 .FirstOrDefaultAsync(v => v.UserId == userId && v.Id == vehicleId)
                 ?? throw new NotFoundException($"The user with id {userId} not found.");
 
-            if (!await Context.VehicleConnectors.AsNoTracking().AnyAsync(x => x.UserId == userId && x.VehicleId == request.Id))
+            if (!await Context.Vehicles.AsNoTracking().AnyAsync(x => x.UserId == userId && x.Id == vehicleId))
             {
                 throw new BadRequestException($"The selected connector is not assigned to the provider.");
             }
@@ -69,7 +68,7 @@ namespace VehicleCms.Persistence.Services
             vehicle.Model = request.Model;
             vehicle.ProductionYear = request.ProductionYear;
             vehicle.Type = request.Type;
-            vehicle.UserId = request.UserId;
+            vehicle.UserId = userId;
 
             Context.Vehicles.Update(vehicle);
             await Context.SaveChangesAsync();

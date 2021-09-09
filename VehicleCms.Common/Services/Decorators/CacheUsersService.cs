@@ -12,7 +12,6 @@ namespace VehicleCms.Common.Services.Decorators
     public class CacheUsersService : DecoratorBase, IUsersService
     {
         public override string CacheKeyBase => "Users";
-        private string MappingsKey => "Vehicles";
 
         public IUsersService UsersService { get; }
 
@@ -30,7 +29,7 @@ namespace VehicleCms.Common.Services.Decorators
 
         public async Task<UserDto> GetUserById(string userId)
         {
-            var user = await GetFromCacheOrHttp($"{CacheKeyBase}",
+            var user = await GetFromCacheOrHttp($"{userId}-{CacheKeyBase}",
                 async () => await UsersService.GetUserById(userId));
             return user;
         }
@@ -39,7 +38,6 @@ namespace VehicleCms.Common.Services.Decorators
         {
             var solution = await UsersService.PostUser(upsertUserRequest);
             await ClearCache($"{CacheKeyBase}");
-            await ClearCache($"{MappingsKey}");
             return solution;
         }
 
@@ -48,7 +46,6 @@ namespace VehicleCms.Common.Services.Decorators
             var solution = await UsersService.PutUser(userId, upsertUserRequest);
             await ClearCache($"{CacheKeyBase}");
             await ClearCache($"{CacheKeyBase}-{userId}");
-            await ClearCache($"{MappingsKey}");
             return solution;
         }
 
@@ -57,7 +54,6 @@ namespace VehicleCms.Common.Services.Decorators
             await UsersService.DeleteUser(userId);
             await ClearCache($"{CacheKeyBase}");
             await ClearCache($"{CacheKeyBase}-{userId}");
-            await ClearCache($"{MappingsKey}");
         }
     }
 }

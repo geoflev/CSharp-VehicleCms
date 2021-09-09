@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using System;
 using VehicleCms.Api.Configurations;
-using VehicleCms.Common.Models.Settings;
 
 namespace VehicleCms.Api
 {
@@ -26,6 +24,7 @@ namespace VehicleCms.Api
             services.AddCustomServices(Configuration);
             services.AddHttpContextAccessor();
             services.AddDatabaseConfig(Configuration, HostingEnvironment);
+            services.AddDistributedMemoryCache();
             services.AddControllers();
             services.AddSwaggerConfig();
         }

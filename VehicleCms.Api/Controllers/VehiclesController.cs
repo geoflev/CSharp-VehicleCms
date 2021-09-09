@@ -33,7 +33,7 @@ namespace VehicleCms.Api.Controllers
         [HttpPost()]
         [SwaggerOperation(Tags = new[] { "User  -  Vehicles" }, Summary = "Post vehicle")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<VehicleDto>))]
-        public async Task<IActionResult> GetVehicle([FromRoute] string userId, [FromBody] UpsertVehicleRequest request)
+        public async Task<IActionResult> PostUserVehicle([FromRoute] string userId, [FromBody] UpsertVehicleRequest request)
         {
             var vehicle = await VehiclesService.PostUserVehicle(userId, request);
             return Ok(vehicle);
@@ -42,7 +42,7 @@ namespace VehicleCms.Api.Controllers
         [HttpPut("{vehicleId}")]
         [SwaggerOperation(Tags = new[] { "User  -  Vehicles" }, Summary = "Put vehicle")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<VehicleDto>))]
-        public async Task<IActionResult> PutVehicle([FromRoute] string userId, [FromRoute] string vehicleId, UpsertVehicleRequest request)
+        public async Task<IActionResult> PutUserVehicle([FromRoute] string userId, [FromRoute] string vehicleId, UpsertVehicleRequest request)
         {
             var vehicle = await VehiclesService.PutUserVehicle(userId, vehicleId, request);
             return Ok(vehicle);
@@ -51,7 +51,7 @@ namespace VehicleCms.Api.Controllers
         [HttpDelete()]
         [SwaggerOperation(Tags = new[] { "User  -  Vehicles" }, Summary = "Put vehicle")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> DeleteVehicle([FromRoute] string userId, [FromRoute] string vehicleId)
+        public async Task<IActionResult> DeleteUserVehicle([FromRoute] string userId, [FromRoute] string vehicleId)
         {
             await VehiclesService.DeleteUserVehicle(userId, vehicleId);
             return NoContent();

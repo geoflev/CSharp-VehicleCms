@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using VehicleCms.Common.Models.Dtos;
 using VehicleCms.Common.Models.Requests;
@@ -8,7 +6,7 @@ using VehicleCms.Common.Services.Interfaces;
 
 namespace VehicleCms.Common.Services.Implementations
 {
-    class MockVehiclesService : IVehiclesService
+    public class MockVehiclesService : IVehiclesService
     {
         public async Task DeleteUserVehicle(string userId, string vehicleId)
         {
